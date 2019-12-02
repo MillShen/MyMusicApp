@@ -53,15 +53,6 @@ class SoundBoard(Widget):
         global event, event2
 
 
-
-
-
-
-
-
-
-
-
 class MiniatureSoundBoardApp(App):
     def build(self):
         return SoundBoard()
