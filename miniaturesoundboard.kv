@@ -1,0 +1,53 @@
+<SoundBoard>
+    board: board
+    slider: slide
+    metro: metronome
+
+    BoxLayout:
+        size: root.size
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 1
+            orientation: 'horizontal'
+            Label:
+                size_hint_x: 1.09
+                text: '  Miniature\nSoundboard'
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_x: 3
+
+                Button:
+                    id: metronome
+                    text: 'Metronome'
+                    size_hint_x: 0.88
+                    on_press: root.metB()
+                Button:
+                    text: 'Record and Slider functionality will be added later'
+                    size_hint_x: 4
+
+        BoxLayout:
+            size_hint_y: 4
+            orientation: 'horizontal'
+
+            GridLayout:
+                id: board
+                cols: 5
+
+                size_hint_x: 4
+
+
+            Slider:
+                id: slide
+                size_hint_x: 2
+                orientation: 'vertical'
+                min: 0.2
+                max: 8
+                value: 3
+
+
+
+
+
+
+
