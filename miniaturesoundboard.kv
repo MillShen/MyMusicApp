@@ -20,11 +20,21 @@
                 Button:
                     id: metronome
                     text: 'Metronome'
-                    size_hint_x: 0.88
+                    size_hint_x: 0.8
                     on_press: root.metB()
                 Button:
-                    text: 'Record and Slider functionality will be added later'
-                    size_hint_x: 4
+                    id: metronome
+                    text: '3/4'
+                    size_hint_x: 0.8
+                    on_press: root.timesig=3
+                Button:
+                    id: metronome
+                    text: '4/4'
+                    size_hint_x: 0.8
+                    on_press: root.timesig=4
+                Button:
+                    text: 'Record/Slider functionality\nwill be added in the future'
+                    size_hint_x: 2
 
         BoxLayout:
             size_hint_y: 4
@@ -44,10 +54,3 @@
                 min: 0.2
                 max: 8
                 value: 3
-
-
-
-
-
-
-

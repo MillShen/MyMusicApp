@@ -18,45 +18,45 @@ class SoundBoard(Widget):
     slider = ObjectProperty(None)
     metro = ObjectProperty(None)
     event = None
-    event2 = None
     cevent = None
+    beat = 1
+    timesig = 4
 
     def __init__(self, **kwargs):
         super(SoundBoard, self).__init__(**kwargs)
         for i in range(1, 26):
             self.ids.board.add_widget(Button(id="b" + str(i), on_press=lambda instance: self.call(i, SoundLoader.load('sounds/quack.wav'))))
 
-    def m_play(self, dt):
-        self.m.play()
-
-    def mup_play(self, dt=0):
-        self.mup.play()
+    def playtick(self, dt=0):
+        global beat
+        if self.beat==1:
+            self.m.play()
+        else:
+            self.mup.play()
+        self.beat+=1
+        if self.beat>self.timesig:
+            self.beat=1
 
     def metB(self):
-        global event, event2, cevent
+        global event, cevent
         self.mTrue = not self.mTrue
         if self.mTrue:
-            self.metro.background_color = [255, 0, 0, 1]
-            self.mup_play()
-            # event = Clock.schedule_interval(self.mup_play, 1 / self.slider.value * 4)
-            event2 = Clock.schedule_interval(self.m_play, 1 / self.slider.value)
+            #self.metro.background_color = [255, 0, 0, 1]  #temporary: need to make buttons colored
+            event = Clock.schedule_interval(self.playtick, 1 / self.slider.value*1.2)
         else:
             self.metro.background_color = [1, 1, 1, 1]
-            # event.cancel()
-            event2.cancel()
+            event.cancel()
 
     def call(self, t, s):
         s.pitch = 0.5 + 0.06*t
         s.play()
 
     def met(self, dt):
-        global event, event2
-
+        global event
 
 class MiniatureSoundBoardApp(App):
     def build(self):
         return SoundBoard()
-
 
 if __name__ == "__main__":
     MiniatureSoundBoardApp().run()
