@@ -38,7 +38,7 @@ class SoundBoard(Widget):
             self.beat=1
 
     def metB(self):
-        global event, cevent
+        global event
         self.mTrue = not self.mTrue
         if self.mTrue:
             #self.metro.background_color = [255, 0, 0, 1]  #temporary: need to make buttons colored
@@ -51,8 +51,6 @@ class SoundBoard(Widget):
         s.pitch = 0.5 + 0.06*t
         s.play()
 
-    def met(self, dt):
-        global event
 
 class MiniatureSoundBoardApp(App):
     def build(self):
