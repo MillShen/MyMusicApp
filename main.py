@@ -17,8 +17,8 @@ class SoundBoard(Widget):
     mTrue = False
     slider = ObjectProperty(None)
     metro = ObjectProperty(None)
+    sig = ObjectProperty(None)
     event = None
-    cevent = None
     beat = 1
     timesig = 4
 
@@ -41,7 +41,7 @@ class SoundBoard(Widget):
         global event
         self.mTrue = not self.mTrue
         if self.mTrue:
-            #self.metro.background_color = [255, 0, 0, 1]  #temporary: need to make buttons colored
+            self.metro.background_color = [255, 0, 0, 1]
             event = Clock.schedule_interval(self.playtick, 1 / self.slider.value*1.2)
         else:
             self.metro.background_color = [1, 1, 1, 1]
@@ -50,6 +50,10 @@ class SoundBoard(Widget):
     def call(self, t, s):
         s.pitch = 0.5 + 0.06*t
         s.play()
+        
+    def submit(self):
+        self.timesig = int(self.sig.text)
+        self.sig.text = ""
 
 
 class MiniatureSoundBoardApp(App):
