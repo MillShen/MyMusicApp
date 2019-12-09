@@ -12,7 +12,7 @@ from operator import itemgetter
 
 
 class SoundBoard(Widget):
-    filename = 'quack'
+    filename = 'bees'
     sound = SoundLoader.load('sounds/' + filename + '.wav')
     mup = SoundLoader.load('sounds/mup.wav')
     m = SoundLoader.load('sounds/m.wav')
@@ -21,6 +21,9 @@ class SoundBoard(Widget):
     sig = ObjectProperty(None)
     tbox = ObjectProperty(None)
     slidelabel = ObjectProperty(None)
+    sample = ObjectProperty(None)
+    loader = ObjectProperty(None)
+    loadbutton = ObjectProperty(None)
     slider_val = NumericProperty(3)
 
     event = 0
@@ -29,15 +32,6 @@ class SoundBoard(Widget):
 
     def __init__(self, **kwargs):
         super(SoundBoard, self).__init__(**kwargs)
-
-        for i in list(range(1, 26)):
-            s = SoundLoader.load('sounds/' + self.filename + '.wav')
-
-            def p(self, n=i):
-                s.pitch = 0.5 + 0.06*n
-                s.play()
-
-            self.ids.board.add_widget(Button(on_press=p))
 
         slide = Slider(min=0.5, max=5, value=3, step=0.05, orientation='vertical', size_hint_y=15)
         slide.fbind('value', self.on_slider_val)
@@ -84,7 +78,26 @@ class SoundBoard(Widget):
             self.sig.text = ""
         else:
             self.sig.text = ""
-            
+
+    def initbutton(self):
+
+        if self.sample.text:
+            self.filename = self.sample.text
+            self.sample.text = ""
+
+        for i in list(range(1, 26)):
+            s = SoundLoader.load('sounds/' + self.filename + '.wav')
+
+            def p(self, n=i):
+                s.pitch = 0.5 + 0.06*n
+                s.play()
+
+            self.ids.board.add_widget(Button(on_press=p))
+
+        self.loader.text = self.filename + ".wav is loaded"
+        self.loadbutton.disabled = True
+
+
 
 class MiniatureSoundBoardApp(App):
     def build(self):
