@@ -6,7 +6,8 @@
     slidesection: slidesection
     sample: sample
     loader: loader
-    loadbutton: loadbutton
+    lb: loadbutton
+    rb: removebutton
 
     BoxLayout:
         size: root.size
@@ -53,12 +54,18 @@
                         id: loader
                         size_hint_y: 1/3
                         text: "Type the name of your desired soundfile above"
-                    Button:
-                        id: loadbutton
-                        text: "Initialize Buttons"
+                    BoxLayout:
                         size_hint_y: 1/3
-                        on_press: root.initbutton()
-
+                        orientation: 'horizontal'
+                        Button:
+                            id: loadbutton
+                            text: "Initialize Buttons"
+                            on_press: root.initbutton()
+                        Button:
+                            id: removebutton
+                            text: "Remove Buttons"
+                            disabled: True
+                            on_press: root.removebuttons()
         BoxLayout:
             size_hint_y: 4
             orientation: 'horizontal'

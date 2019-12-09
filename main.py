@@ -8,7 +8,6 @@ from kivy.properties import ObjectProperty
 from kivy.properties import NumericProperty
 from kivy.core.audio import SoundLoader
 from kivy.clock import Clock
-from operator import itemgetter
 
 
 class SoundBoard(Widget):
@@ -23,7 +22,8 @@ class SoundBoard(Widget):
     slidelabel = ObjectProperty(None)
     sample = ObjectProperty(None)
     loader = ObjectProperty(None)
-    loadbutton = ObjectProperty(None)
+    lb = ObjectProperty(None)
+    rb = ObjectProperty(None)
     slider_val = NumericProperty(3)
 
     event = 0
@@ -31,6 +31,7 @@ class SoundBoard(Widget):
     timesig = 4
 
     def __init__(self, **kwargs):
+        """Inits the board"""
         super(SoundBoard, self).__init__(**kwargs)
 
         slide = Slider(min=0.5, max=5, value=3, step=0.05, orientation='vertical', size_hint_y=15)
@@ -80,7 +81,7 @@ class SoundBoard(Widget):
             self.sig.text = ""
 
     def initbutton(self):
-
+        """Loads the soundboard with the audio file"""
         if self.sample.text:
             self.filename = self.sample.text
             self.sample.text = ""
@@ -95,7 +96,19 @@ class SoundBoard(Widget):
             self.ids.board.add_widget(Button(on_press=p))
 
         self.loader.text = self.filename + ".wav is loaded"
-        self.loadbutton.disabled = True
+        self.rb.disabled = False
+        self.lb.disabled = True
+
+    def removebuttons(self):
+        """Removes buttons to allow loading again"""
+        self.lb.disabled = False
+        k = self.ids.board.children
+        if k:
+            for i in k:
+                self.ids.board.remove_widget(i)
+            if k:
+                self.removebuttons()
+        self.rb.disabled = True
 
 
 
