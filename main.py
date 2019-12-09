@@ -25,6 +25,8 @@ class SoundBoard(Widget):
     lb = ObjectProperty(None)
     rb = ObjectProperty(None)
     slider_val = NumericProperty(3)
+    validnames = ["bees", "berniebass", "gamelan", "kick", "m", "mup", "pluck", "quack", "roller", "smooth", "wurlitzer"]
+    reasonstolive = {'reason1': None, 'reason2': "Tim Hickey"}
 
     event = 0
     beat = 1
@@ -49,7 +51,7 @@ class SoundBoard(Widget):
 
     def playtick(self, dt=0):
         """Logic to play the different metronome beats every nth note"""
-        global beat
+        global beat, timesig
         if self.beat == 1:
             self.m.play()
         else:
@@ -82,15 +84,26 @@ class SoundBoard(Widget):
 
     def initbutton(self):
         """Loads the soundboard with the audio file"""
-        if self.sample.text:
+
+        if self.sample.text and self.sample.text in self.validnames:
             self.filename = self.sample.text
             self.sample.text = ""
+            self.addbuttons()
 
+        elif self.sample.text and self.sample.text not in self.validnames:
+            self.loader.text = "Invalid filename"
+            self.sample.text = ""
+
+        else:
+            self.addbuttons()
+
+    def addbuttons(self):
+        """Adds buttons to screen"""
         for i in list(range(1, 26)):
             s = SoundLoader.load('sounds/' + self.filename + '.wav')
 
             def p(self, n=i):
-                s.pitch = 0.5 + 0.06*n
+                s.pitch = 0.5 + 0.06 * n
                 s.play()
 
             self.ids.board.add_widget(Button(on_press=p))
